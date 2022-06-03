@@ -25,7 +25,6 @@ public class StudentServlet extends HttpServlet {
 //        e.setProperty("age", 30);
 //        ds.put(e);
         try{
-            DatastoreIdentityMetadata datastoreIdentityMetadata;
             PersistenceUnitMetaData pumd = new PersistenceUnitMetaData("dynamic-unit", "RESOURCE_LOCAL", null);
             PersistenceManagerFactory pmf = new JDOPersistenceManagerFactory(pumd, null);
             PersistenceManager pm = pmf.getPersistenceManager();
