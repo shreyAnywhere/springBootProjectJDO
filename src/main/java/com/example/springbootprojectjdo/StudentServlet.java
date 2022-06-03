@@ -2,6 +2,8 @@ package com.example.springbootprojectjdo;
 
 import org.datanucleus.api.jdo.JDOPersistenceManagerFactory;
 import org.datanucleus.metadata.PersistenceUnitMetaData;
+
+import javax.jdo.JDOHelper;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
@@ -18,14 +20,12 @@ public class StudentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory();
+        PersistenceManager pm = pmf.getPersistenceManager();
+        Transaction tx = pm.currentTransaction();
         try{
-            PersistenceUnitMetaData pumd = new PersistenceUnitMetaData("dynamic-unit", "RESOURCE_LOCAL", null);
-            pumd.addClassName("com.example.springbootprojectjdo.StudentDetails");
-
-            PersistenceManagerFactory pmf = new JDOPersistenceManagerFactory(pumd, null);
-            PersistenceManager pm = pmf.getPersistenceManager();
-            Transaction tx = pm.currentTransaction();
-
+            //PersistenceUnitMetaData pumd = new PersistenceUnitMetaData("dynamic-unit", "RESOURCE_LOCAL", null);
+            //pumd.addClassName("com.example.springbootprojectjdo.StudentDetails");
             tx.begin();
             StudentDetails object = new StudentDetails();
             object.setName("abc");
@@ -36,6 +36,14 @@ public class StudentServlet extends HttpServlet {
             tx.commit();
         } catch (Exception e) {
             System.out.print(e.getMessage());
+        }
+        finally {
+            if (tx.isActive())
+            {
+                tx.rollback();
+            }
+            pm.close();
+            pmf.close();
         }
 
         resp.getWriter().println("Hello world from Student servlet!!!");
