@@ -5,6 +5,7 @@ import org.datanucleus.metadata.PersistenceUnitMetaData;
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Transaction;
+import javax.jdo.metadata.DatastoreIdentityMetadata;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,7 @@ public class StudentServlet extends HttpServlet {
 //        e.setProperty("age", 30);
 //        ds.put(e);
         try{
+            DatastoreIdentityMetadata datastoreIdentityMetadata;
             PersistenceUnitMetaData pumd = new PersistenceUnitMetaData("dynamic-unit", "RESOURCE_LOCAL", null);
             PersistenceManagerFactory pmf = new JDOPersistenceManagerFactory(pumd, null);
             PersistenceManager pm = pmf.getPersistenceManager();
