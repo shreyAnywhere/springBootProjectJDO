@@ -44,6 +44,6 @@ public class StudentServlet extends HttpServlet {
             pmf.close();
         }
 
-        resp.getWriter().println("Hello world from Student servlet!!!");
+        resp.getWriter().println("Hello world from Student servlet!!! new updated!!!");
     }
 }
