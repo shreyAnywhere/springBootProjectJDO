@@ -24,8 +24,6 @@ public class StudentServlet extends HttpServlet {
         PersistenceManager pm = pmf.getPersistenceManager();
         Transaction tx = pm.currentTransaction();
         try{
-            //PersistenceUnitMetaData pumd = new PersistenceUnitMetaData("dynamic-unit", "RESOURCE_LOCAL", null);
-            //pumd.addClassName("com.example.springbootprojectjdo.StudentDetails");
             tx.begin();
             StudentDetails object = new StudentDetails();
             object.setName("abc");
