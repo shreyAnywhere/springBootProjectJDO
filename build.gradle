@@ -20,6 +20,7 @@ dependencies {
     implementation 'javax.jdo:jdo-api:3.2'
     implementation 'org.datanucleus:datanucleus-api-jdo:6.0.0-m5'
     implementation 'org.datanucleus:datanucleus-core:5.2.10'
+    implementation 'org.datanucleus:datanucleus-rdbms:6.0.0-m3'
 }
 
 tasks.named('test') {
