@@ -20,10 +20,10 @@ public class StudentServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory();
-        PersistenceManager pm = pmf.getPersistenceManager();
-        Transaction tx = pm.currentTransaction();
         try{
+            PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("transactions-optional");
+            PersistenceManager pm = pmf.getPersistenceManager();
+            Transaction tx = pm.currentTransaction();
             tx.begin();
             StudentDetails object = new StudentDetails();
             object.setName("abc");
@@ -34,14 +34,6 @@ public class StudentServlet extends HttpServlet {
             tx.commit();
         } catch (Exception e) {
             System.out.print(e.getMessage());
-        }
-        finally {
-            if (tx.isActive())
-            {
-                tx.rollback();
-            }
-            pm.close();
-            pmf.close();
         }
 
         resp.getWriter().println("Hello world from Student servlet!!! new updated!!!");
