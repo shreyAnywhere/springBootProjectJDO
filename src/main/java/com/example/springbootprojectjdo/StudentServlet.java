@@ -4,9 +4,12 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.apphosting.api.DatastorePb;
+import org.datanucleus.api.jdo.JDOPersistenceManagerFactory;
+import org.datanucleus.metadata.PersistenceUnitMetaData;
 
 import javax.jdo.PersistenceManager;
 import javax.jdo.PersistenceManagerFactory;
+import javax.jdo.Transaction;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,13 +31,18 @@ public class StudentServlet extends HttpServlet {
 //        e.setProperty("age", 30);
 //        ds.put(e);
         try{
+            PersistenceUnitMetaData pumd = new PersistenceUnitMetaData("dynamic-unit", "RESOURCE_LOCAL", null);
+            PersistenceManagerFactory pmf = new JDOPersistenceManagerFactory(pumd, null);
+            PersistenceManager pm = pmf.getPersistenceManager();
+            Transaction tx = pm.currentTransaction();
+            tx.begin();
             StudentDetails object = new StudentDetails();
             object.setName("abc");
             object.setEmail("abc@gmail.com");
             object.setAge(30);
             object.setDob(LocalDate.parse("2021-01-07"));
-            PersistenceManager persistenceManager = null;
-            persistenceManager.makePersistent(object);
+            pm.makePersistent(object);
+            tx.commit();
         } catch (Exception e) {
             System.out.print(e.getMessage());
         }
