@@ -19,7 +19,7 @@ dependencies {
     implementation 'com.google.appengine:appengine-api-1.0-sdk:1.3.1'
     implementation 'javax.jdo:jdo-api:3.0.1'
     implementation 'org.datanucleus:datanucleus-api-jdo:6.0.0-m5'
-    implementation group: 'org.datanucleus', name: 'datanucleus-core', version: '5.1.8'
+    implementation 'org.datanucleus:datanucleus-core:5.2.1'
 }
 
 tasks.named('test') {
