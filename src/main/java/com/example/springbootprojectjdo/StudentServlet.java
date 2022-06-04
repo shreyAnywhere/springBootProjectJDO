@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Properties;
 
 public class StudentServlet extends HttpServlet {
 
@@ -21,9 +22,19 @@ public class StudentServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         try{
-            PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory("transactions-optional");
+            Properties properties = new Properties();
+            properties.setProperty("javax.jdo.PersistenceManagerFactoryClass", "org.datanucleus.api.jdo.JDOPersistenceManagerFactory");
+            properties.setProperty("javax.jdo.option.ConnectionURL", "appengine");
+            properties.setProperty("javax.jdo.option.NontransactionalRead", "true");
+            properties.setProperty("javax.jdo.option.NontransactionalWrite", "true");
+            properties.setProperty("javax.jdo.option.RetainValues", "true");
+            properties.setProperty("datanucleus.appengine.autoCreateDatastoreTxns", "true");
+            properties.setProperty("datanucleus.appengine.singletonPMFForName", "true");
+
+            PersistenceManagerFactory pmf = JDOHelper.getPersistenceManagerFactory(properties);
             PersistenceManager pm = pmf.getPersistenceManager();
             Transaction tx = pm.currentTransaction();
+
             tx.begin();
             StudentDetails object = new StudentDetails();
             object.setName("abc");
